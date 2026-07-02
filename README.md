@@ -32,12 +32,44 @@ python test.py
 
 เปิดไฟล์ `webpage.html` ด้วยเว็บเบราว์เซอร์ได้โดยตรง ไม่ต้องมีเซิร์ฟเวอร์หรือการติดตั้งเพิ่มเติม
 
+## หน้าเว็บข้อมูลส่วนตัว (Personal Profile)
+
+ในโฟลเดอร์ `profile/` มีหน้าเว็บข้อมูลส่วนตัว (ธีมขาวดำ) พร้อมรูปโปรไฟล์ (ลบพื้นหลังแล้ว คงสีจริงของรูป) และลิงก์อีเมล/เบอร์โทร และสคริปต์สำหรับรัน private server (เข้าถึงได้เฉพาะเครื่องนี้ ไม่เปิดสู่สาธารณะ)
+
+```
+profile/
+├── index.html                # หน้าเว็บข้อมูลส่วนตัว
+├── assets/avatar.png          # รูปโปรไฟล์ (สีจริง, ลบพื้นหลังแล้ว — พื้นหลังโปร่งใส)
+├── assets/avatar_source.png   # รูปต้นฉบับก่อนลบพื้นหลัง (เก็บไว้สำรอง)
+├── server.py                  # private server (Python http.server, bind เฉพาะ 127.0.0.1)
+└── run_server.bat             # สคริปต์รัน server.py บน Windows
+```
+
+**แก้ไขข้อมูลก่อนใช้งาน:**
+- เปิด `profile/index.html` แล้วแก้ไขชื่อ, อีเมล, เบอร์โทรให้เป็นของคุณเอง
+- แทนที่ `profile/assets/avatar.png` ด้วยรูปอื่นได้ตามต้องการ (แนะนำให้ใช้รูปพื้นหลังโปร่งใส/PNG)
+
+**รัน private server:**
+
+```bash
+cd profile
+python server.py
+```
+
+หรือดับเบิลคลิก `profile/run_server.bat` — เบราว์เซอร์จะเปิดไปที่ `http://127.0.0.1:8000/` โดยอัตโนมัติ เซิร์ฟเวอร์นี้ผูกกับ `127.0.0.1` เท่านั้น จึงเข้าถึงได้จากเครื่องนี้เครื่องเดียว (private) กด `Ctrl+C` เพื่อหยุดเซิร์ฟเวอร์
+
 ## โครงสร้างไฟล์
 
 ```
-├── test.py              # แอปเครื่องคิดเลข (Python + Tkinter)
-├── webpage.html          # แอปเครื่องคิดเลขเวอร์ชันเว็บ (HTML/CSS/JS)
-├── run1.bat              # สคริปต์รัน test.py บน Windows
-├── run1 - ทางลัด.lnk     # ชอร์ตคัตสำหรับรัน run1.bat
-└── run.bat.txt           # สำเนาสคริปต์รัน (text)
+├── test.py               # แอปเครื่องคิดเลข (Python + Tkinter)
+├── webpage.html           # แอปเครื่องคิดเลขเวอร์ชันเว็บ (HTML/CSS/JS)
+├── run1.bat               # สคริปต์รัน test.py บน Windows
+├── run1 - ทางลัด.lnk      # ชอร์ตคัตสำหรับรัน run1.bat
+├── run.bat.txt            # สำเนาสคริปต์รัน (text)
+└── profile/               # หน้าเว็บข้อมูลส่วนตัว + private server
+    ├── index.html
+    ├── assets/avatar.png
+    ├── assets/avatar_source.png
+    ├── server.py
+    └── run_server.bat
 ```
