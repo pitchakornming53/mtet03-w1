@@ -77,3 +77,8 @@ python server.py
 ## Arduino Teamwork
 
 เริ่มทำงาน Arduino เป็นทีมได้จาก [คู่มือ Arduino Teamwork](ARDUINO_TEAMWORK.md) พร้อมตัวอย่าง [Blink](Blink/Blink.ino) และแบบฟอร์ม Issues / Pull Requests สำหรับแบ่งงานและตรวจโค้ด
+
+
+## Week 12 — GitHub, Docker และ n8n
+
+เปิด [ชุด Assignment สัปดาห์ที่ 12](Week12_Assignment/README.md) รวม Lecture Note, ESP32 PlatformIO, Docker OpenCV และ n8n AI → Telegram พร้อมคู่มือภาษาไทยและผลทดสอบที่ระบุขอบเขตไว้

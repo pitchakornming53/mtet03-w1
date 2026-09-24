@@ -1,0 +1,135 @@
+{
+  "name": "Week12 - AI Machine Report to Telegram",
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "data",
+      "name": "Sample Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "jsCode": "return [{json: {machine: 'Motor-A01', temperature_c: 78, vibration_mm_s: 6.2, temperature_limit_c: 70, vibration_limit_mm_s: 4.5, note: 'ข้อมูลจำลองเพื่อการเรียน ไม่ใช่ค่าจากเซนเซอร์จริง'}}];"
+      }
+    },
+    {
+      "id": "ai",
+      "name": "AI Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.deepseek.com/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({model: 'deepseek-chat', messages: [{role: 'system', content: 'สรุปข้อมูลเครื่องจักรเป็นภาษาไทยไม่เกิน 500 ตัวอักษร ระบุว่าเป็นข้อมูลจำลอง เปรียบเทียบค่ากับ limit ที่ได้รับ บอกค่าที่เกินและเสนอให้ตรวจสอบ ห้ามวินิจฉัยสาเหตุแน่นอนหรือสั่งควบคุมเครื่องจักร'}, {role: 'user', content: JSON.stringify($json)}], stream: false, max_tokens: 600}) }}",
+        "options": {
+          "timeout": 60000
+        }
+      }
+    },
+    {
+      "id": "format",
+      "name": "Format Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const text = $json.choices?.[0]?.message?.content;\nif (typeof text !== 'string' || !text.trim()) throw new Error('AI response has no content');\nconst escaped = text.slice(0, 1200).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nreturn [{json: {text: 'Week12 — รายงานข้อมูลจำลอง\\n' + escaped}}];"
+      }
+    },
+    {
+      "id": "send",
+      "name": "Send Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "sendMessage",
+        "chatId": "REPLACE_WITH_YOUR_CHAT_ID",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "parse_mode": "HTML",
+          "appendAttribution": false
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Sample Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sample Data": {
+      "main": [
+        [
+          {
+            "node": "AI Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Analysis": {
+      "main": [
+        [
+          {
+            "node": "Format Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Message": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
