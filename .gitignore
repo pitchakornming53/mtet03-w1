@@ -1,0 +1,16 @@
+# Generated build output
+build/
+*.hex
+*.elf
+*.bin
+*.o
+
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+arduino_secrets.h
+
+# OS files
+.DS_Store
+Thumbs.db
