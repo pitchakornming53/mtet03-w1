@@ -2,7 +2,7 @@
 
 // External LED: GPIO2 -> 220-330 ohm resistor -> LED anode; cathode -> GND.
 constexpr uint8_t LED_PIN = 2;
-constexpr unsigned long BLINK_INTERVAL_MS = 1000;
+constexpr unsigned long BLINK_INTERVAL_MS = 500;
 unsigned long lastToggle = 0;
 bool ledOn = false;
 

@@ -16,7 +16,7 @@ pio device monitor --baud 115200
 ```
 
 หากอัปโหลดไม่ได้ ตรวจสาย USB ที่รับส่งข้อมูลได้ พอร์ตและไดรเวอร์ของบอร์ด
-ผลที่คาดหวัง: LED สลับ ON/OFF ทุก 1 วินาที หนึ่งรอบติดและดับรวม 2 วินาที
+ผลที่คาดหวังสำหรับโค้ดปัจจุบัน: LED สลับ ON/OFF ทุก 0.5 วินาที หนึ่งรอบติดและดับรวม 1 วินาที
 ใช้ millis() เพื่อตรวจเวลาโดยไม่หยุด loop() ด้วย delay()
 
 ## เปิดงานจาก repository นี้
@@ -65,3 +65,8 @@ git push -u origin feature/faster-blink
 เก็บภาพ repository, diff, commit/PR และ Serial Monitor เป็นหลักฐานจริง
 
 อ้างอิง: https://docs.platformio.org/en/latest/boards/espressif32/esp32dev.html
+
+## ประวัติการแก้โค้ดที่ทำไว้จริง
+
+commit แรกเพิ่มโค้ด BLINK_INTERVAL_MS = 1000 จากนั้น commit ถัดมาเปลี่ยนเป็น 500 พร้อมปรับเอกสารนี้ เปิด History ของ src/main.cpp เพื่อดู diff จริงได้
+ตัวอย่างคำสั่ง branch/PR ด้านบนเป็นขั้นตอนสำหรับฝึกเพิ่มเติม การแก้ครั้งนี้บันทึกเป็น commit บน main ไม่ได้สร้าง PR และยังไม่ได้ทดสอบกับบอร์ดจริง
